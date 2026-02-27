@@ -169,12 +169,34 @@ document.addEventListener("keydown", function(event) {
 
 // Mobile Touch Support
 document.addEventListener("touchstart", function() {
-    if (!gameOver) {
-        velocity = -10;
+
+    if (gameState === "start") {
+        gameState = "playing";
+    }
+    else if (gameState === "playing") {
+        velocity = -7;
+    }
+    else if (gameState === "gameover") {
+        resetGame();
+    }
+
+});document.addEventListener("touchstart", function (event) {
+
+    event.preventDefault(); // VERY IMPORTANT
+
+    if (gameState === "start") {
+        gameState = "playing";
+    }
+    else if (gameState === "playing") {
+        velocity = -7;
         flySound.currentTime = 0;
         flySound.play();
     }
-});
+    else if (gameState === "gameover") {
+        resetGame();
+    }
+
+}, { passive: false });
 
 // End Game
 function endGame() {
